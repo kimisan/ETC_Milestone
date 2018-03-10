@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.core.js"></script>
 </head>
 
 
@@ -27,29 +28,14 @@
 <!-- Your custom script here -->
 <script type="text/babel">
 
-
-
-
     // set the dimensions and margins of the graph
-    var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    var margin = {top: 20, right: 20, bottom: 30, left: 500},
         width = 960 - margin.left - margin.right,
-        height = 800 - margin.top - margin.bottom;
-    // parse the date / time
-    var parseTime = d3.timeParse("%Y");
-    // set the ranges
-    //var x = d3.scaleTime().range([0, width]);
-    var x = d3.scaleLinear().range([0, 100]);
-    //var y = d3.scaleLinear().range([height, 0]);
+        height = 700 - margin.top - margin.bottom;
+
+    var x = d3.scaleLinear().range([0, 50]);
     var y = d3.scaleTime().range([0, height]);
 
-    var line = d3.line()
-        .x(function(d) { return d.x; })
-        .y(function(d) { return y(new Date(d.y)); })
-        .curve(d3.curveCatmullRom.alpha(0.5));
-
-    // append the svg obgect to the body of the page
-    // appends a 'group' element to 'svg'
-    // moves the 'group' element to the top left margin
     var svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -57,96 +43,289 @@
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-
-
     var jsonCircles = [
-        { "Milestone": "2015-01-01",
-            "text": "",
+        { "Milestone": "2017-12-12",
+            "text": "Monetary Policy (ECIP-1017) is enabled",
+            "status":"completed",
+            "color" : "green"
+        },
+        { "Milestone": "2018-02-20",
+            "text": "Ethereum Classic Geth 5.0.0",
+            "status":"completed",
+            "color" : "green"
+        },
+        { "Milestone": "2018-03-05",
+            "text": "ETC handled over 100,000 in transactions per day",
+            "status":"completed",
             "color" : "green"
         },
 
         { "Milestone": "2018-03-31",
-            "text": "XXX",
-            "color" : "purple"
+            "text": "First public release of Emerald Desktop Wallet",
+            "status":"uncompleted",
+            "color" : "green"
         },
-        { "Milestone": "2018-04-30",
-            "text":"XXX",
-            "color" : "red"
+
+        { "Milestone": "2018-05-13",
+            "text":"ECIP 1041 - Remove Difficulty Bomb",
+            "status":"uncompleted",
+            "color" : "green"
         },
-        { "Milestone": "2020-04-30",
-            "text":"XXX",
-            "color" : "red"
+        { "Milestone": "2018-05-30",
+            "text":"Working prototype of Sidechain",
+            "status":"uncompleted",
+            "color" : "green"
+        },
+        { "Milestone": "2018-06-30",
+            "text":"Emerald Mobile Wallet",
+            "status":"uncompleted",
+            "color" : "green"
+        },
+        { "Milestone": "2018-07-30",
+            "text":"Emerald SDK First Release",
+            "status":"uncompleted",
+            "color" : "green"
+        },
+        { "Milestone": "2018-08-30",
+            "text":"JIT Compilation in SputnikVM",
+            "status":"uncompleted",
+            "color" : "green"
+        },
+        { "Milestone": "2018-09-30",
+            "text":"Integrated cross transactions with external blockchains",
+            "status":"uncompleted",
+            "color" : "green"
+        },
+        { "Milestone": "2018-10-30",
+            "text":"IPFS support by Emerald",
+            "status":"uncompleted",
+            "color" : "green"
+        },
+        { "Milestone": "2018-11-30",
+            "text":"Fully IoT-compatible infrastructure of ETC",
+            "status":"uncompleted",
+            "color" : "green"
+        },
+        { "Milestone": "2018-12-30",
+            "text":"Upgrade EVM (new opcodes and optimizations",
+            "status":"uncompleted",
+            "color" : "green"
         }
     ];
 
-    var data = [
-        {x:0,y:"2018-03-31"},
-        {x:1,y:"2017-03-31"}
-    ];
+
+
 
     // Scale the range of the data
-    //x.domain(d3.extent(data, function(d) { return d.Date; }));
     x.domain([0, 1]);
-
-    // y.domain([0, d3.max(data, function(d) {
-    //    return Math.max(d.Imports, d.Exports); })]);
     y.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
 
+
+    var data3= [];
+
+    _.forEach(jsonCircles, function(value,i) {
+        data3.push(
+            {
+                source: [0, y(new Date(value.Milestone))],
+                target: [1, (i+0.5)*51],
+                text:value.text,
+                status:value.status,
+                color : value.color,
+            }
+        )
+    });
+
+    var data5=[];
+    var i;
+    for (i=5100000;i<7300000;i+=100000)
+    {
+        //1518784275, 5400000
+        var newtime = 1518784275+(i-5400000)*14.9;
+        data5.push(
+            {
+                time: newtime,
+                block:i
+            }
+        )
+    }
 
     var circles = svg.selectAll("circle")
         .data(jsonCircles)
         .enter()
         .append("circle")
         .attr("cx", function (d) {
-            //console.log(d.Date);
             return 0; })
         .attr("cy", function (d) { return y(new Date(d.Milestone)); })
         .attr("r", function (d) { return 5; })
-        .style("fill", function(d) { return "red"; });
+        .attr('fill-opacity', function(d) {
+            if (d.status == "completed"){
+                return 1;
+            }
+            else {
+                return 0.5;
+            }
+        })
+        .style("fill", function(d) { return "green"; });
 
+    var circles2 = svg.selectAll("circle2")
+        .data(data5)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+            return -220; })
+        .attr("cy", function (d) {
+            return y(new Date(d.time*1000));
+        })
+        .attr("r", function (d) { return 2; })
+        .attr('fill-opacity', function(d) {
+            if (d.status == "completed"){
+                return 1;
+            }
+            else {
+                return 0.5;
+            }
+        })
+        .style("fill", function(d) { return "purple"; });
+
+    var text3 = svg.selectAll("text1")
+        .data(data5)
+        .enter()
+        .append("text")
+        .attr("class", "text1")
+        .attr("x", function (d) {
+            //console.log(d);
+            return -220; })
+        .attr("y", function (d) {
+            return y(new Date(d.time*1000));
+        })
+        .attr("dx", 5)
+        .attr("dy", 5)
+        .style("font-size", "14px")
+        .text(function(d){
+            return d.block;
+        });
 
     var link = d3.linkHorizontal()
         .x(function(d) {
-            console.log(d[0]);
             return x(d[0]);
         })
         .y(function(d) {
-            return y(new Date(d[1]));
+            return d[1];
         });
-
-    var k1= link(
-        {
-            source: [0, "2018-03-31"],
-            target: [1, "2017-03-31"]
-        },
-        {
-            source: [0, "2018-03-31"],
-            target: [1, "2020-03-31"]
-        },
-        {"source": 0, "target": "2018-03-31"},
-        {"source": 1, "target": "2017-03-31"},
-
-    );
-
 
 
     var circles1 = svg.selectAll("path")
-        .data(data)
+        .data(data3)
         .enter()
         .append("path")
         .attr("fill", "none")
-        .attr("stroke", "steelblue")
+        .attr("stroke", function(d) {
+            return d.color;
+        })
+        .attr("stroke-opacity", function(d) {
+            if (d.status == "completed"){
+                return 1;
+            }
+            else {
+                return 0.5;
+            }
+        })
         .attr("stroke-linejoin", "round")
         .attr("stroke-linecap", "round")
         .attr("stroke-width", 1.5)
-        .attr('d', k1);
+        .attr('d', function(d) {
+            return link(d);
+        });
 
-
+    var circles2 = svg.selectAll("text3")
+        .data(data3)
+        .enter()
+        .append("text")
+        .attr("x", function(d) {
+            return x(d.target[0]); })
+        .attr("y", function(d) {
+            return d.target[1];
+        })
+        .attr( "fill-opacity", function(d) {
+            if (d.status == "completed"){
+                return 1;
+            }
+            else {
+                return 0.5;
+            }
+        })
+        .attr("dx", 5)
+        .attr("dy", 5)
+        .style("font-size", "14px")
+        .text(function(d){
+            return d.text;
+        });
 
     // Add the Y Axis
     svg.append("g")
         .call(d3.axisLeft(y));
 
+    svg.append("rect")
+        .attr("x", -0)
+        .attr("y", 0)
+        .style("opacity", 0.1)
+        .style("fill", "green")
+        .attr("width", 500)
+        .attr("height",y(new Date()));
+
+    svg.append("rect")
+        .attr("x", -60)
+        .attr("y", 0)
+        .style("opacity", 0)
+        .style("fill", "green")
+        .attr("width", 1)
+        .attr("height",y(new Date()));
+
+    svg.append("rect")
+        .attr("x", -90)
+        .attr("y", 0)
+        .style("opacity", 0.5)
+        .style("fill", "green")
+        .attr("width", 20)
+        .attr("height",y(new Date(1526234275*1000)));
+
+    svg.append("text")
+        .attr("x", 50)
+        .attr("y", 85)
+        .attr("transform", "translate(0,0) rotate(90)")
+        .attr('text-anchor', 'middle')
+        .text("ECIP-1010");
+
+    svg.append("rect")
+        .attr("x", -90)
+        .attr("y", y(new Date(1526234275*1000)))
+        .style("opacity", 0.2)
+        .style("fill", "green")
+        .attr("width", 20)
+        .attr("height",height-y(new Date(1526234275*1000)));
+
+    svg.append("text")
+        .attr("x", 310)
+        .attr("y", 85)
+        .attr("transform", "translate(0,0) rotate(90)")
+        .attr('text-anchor', 'middle')
+        .text("ECIP-1041");
+
+
+    svg.append("rect")
+        .attr("x", -130)
+        .attr("y", 0)
+        .style("opacity", 0.5)
+        .style("fill", "green")
+        .attr("width", 20)
+        .attr("height",height);
+
+    svg.append("text")
+        .attr("x", 50)
+        .attr("y", 125)
+        .attr("transform", "translate(0,0) rotate(90)")
+        .attr('text-anchor', 'middle')
+        .text("ECIP-1017");
 
 
 </script>
