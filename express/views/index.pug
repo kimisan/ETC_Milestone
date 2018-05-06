@@ -1,0 +1,20 @@
+html
+    head
+        style
+            include style.css
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js')
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.core.js')
+        title= title
+        script.
+            //console.log("#{hashrate}");
+            var raw = "#{hashrate}";
+            JSON.parse(raw.replace(/&quot;/g,'"'));
+            var hashrate_array = JSON.parse(raw.replace(/&quot;/g,'"'));
+            //console.log(hashrate_array);
+            let data = "#{data}";
+            JSON.parse(raw.replace(/&quot;/g, '"'));
+            let data_array = JSON.parse(data.replace(/&quot;/g, '"'));
+
+    body
+        h1= message
+        script(src='./1041.js')
