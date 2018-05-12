@@ -55,6 +55,11 @@ var jsonCircles = [
         "status":"completed",
         "color" : "green"
     },
+    { "Milestone": "2018-05-07",
+        "text": "Ethereum Classic Geth 5.2.1 (with ECIP 1041)",
+        "status":"completed",
+        "color" : "green"
+    },
 
     { "Milestone": "2018-05-24",
         "text":"ECIP 1041 - Remove Difficulty Bomb",
