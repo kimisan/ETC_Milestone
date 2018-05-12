@@ -56,7 +56,7 @@ async function main() {
 
     var count =0
     var sum =0;
-    for (var i=5000000;i< 6000000; i += 1000)
+    for (var i=5000000;i< 6000000; i += 2000)
     {
         var result1 = await getblock(i);
         //console.log(result1.difficulty.toString());
@@ -83,7 +83,7 @@ async function main() {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("test1");
-            dbo.collection("site8").insertOne(xx, function(err, res) {
+            dbo.collection("site10").insertOne(xx, function(err, res) {
                 if (err){
                     console.log("Repeat");
                 }
