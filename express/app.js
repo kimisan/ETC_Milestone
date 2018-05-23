@@ -7,6 +7,8 @@ Web3 = require('web3')
 app.set('view engine', 'pug')
 app.use(express.static('public'))
 
+let rp = require('request-promise');
+
 
 
 const MongoClient = require('mongodb').MongoClient;
@@ -44,7 +46,12 @@ app.get('/', async (req, res, next) => {
         let result = await Promise.all(_.forEach(docs, function(value) {
             //console.log(docs);
             hash_array.cars.push(
-                {block: value._id, difficulty: value.difficulty, miner: value.miner, timestamp: value.timestamp, totalDifficulty:value.totalDifficulty, blocktime: value.blocktime }
+                {block: value._id,
+                    difficulty: value.difficulty,
+                    miner: value.miner,
+                    timestamp: value.timestamp,
+                    totalDifficulty:value.totalDifficulty,
+                    blocktime: value.blocktime }
             );
 
 
@@ -81,11 +88,25 @@ app.get('/', async (req, res, next) => {
         let string_data = JSON.stringify(data);
         //console.log(string_hash);
 
+
+        let polo_data = await rp('https://poloniex.com/public?command=returnChartData&currencyPair=USDT_ETC&start=1514419200&end=9999999999&period=14400')
+            .then(function (htmlString) {
+                // Process html...
+                //console.log(htmlString);
+                return htmlString;
+            })
+            .catch(function (err) {
+                // Crawling failed...
+            });
+
+        console.log(typeof polo_data);
+
         res.render('index', {
             title: 'Hey',
             message: 'Hello there!',
             hashrate: string_hash,
-            data:string_data
+            data:string_data,
+            polo_data:polo_data
         })
     } catch (e) {
         //this will eventually be handled by your error handling middleware
