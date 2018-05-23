@@ -12,9 +12,12 @@ html
             var hashrate_array = JSON.parse(raw.replace(/&quot;/g,'"'));
             //console.log(hashrate_array);
             let data = "#{data}";
-            JSON.parse(raw.replace(/&quot;/g, '"'));
             let data_array = JSON.parse(data.replace(/&quot;/g, '"'));
 
+            let polo_data = "#{polo_data}";
+            let polo_data_array = JSON.parse(polo_data.replace(/&quot;/g, '"'));
+
     body
-        h1= message
+        div(id='div-class')
         script(src='./1041.js')
+        script(src='./blocktime.js')
