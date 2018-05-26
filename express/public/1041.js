@@ -1,7 +1,7 @@
 // set the dimensions and margins of the graph
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+    height = 600 - margin.top - margin.bottom;
 
 //var x = d3.scaleLinear().range([0, 50]);
 var x = d3.scaleTime().range([0, width]);
@@ -60,8 +60,13 @@ var jsonCircles = [
         "status":"completed",
         "color" : "green"
     },
+    { "Milestone": "2018-05-14",
+        "text": "Ethereum Classic Geth 5.3.0 (with ECIP 1041)",
+        "status":"completed",
+        "color" : "green"
+    },
 
-    { "Milestone": "2018-05-24",
+    { "Milestone": "2018-05-29",
         "text":"ECIP 1041 - Remove Difficulty Bomb",
         "status":"uncompleted",
         "color" : "green"
@@ -97,17 +102,19 @@ _.forEach(jsonCircles, function(value,i) {
 var data5=[];
 var data6=[];
 var i;
-var start_block=5800000;
-var start_block_time=1525311323;
+var start_block=5885000;
+var start_block_time=1527259520;
+var ave_block_time=23.91;
+var block_inverval=5000;
 
 //var base_diff= 140 * Math.pow(10,12);
 var base_diff= 150 * Math.pow(10,12);
 //var base_diff= 0;
 
-for (i=start_block;i<7300000;i+=100000)
+for (i=start_block;i<7300000;i+=block_inverval)
 {
     //1518784275, 5400000
-    var newtime = start_block_time+(i-start_block)*18.452;
+    var newtime = start_block_time+(i-start_block)*ave_block_time;
     data5.push(
         {
             time: newtime,
@@ -118,10 +125,10 @@ for (i=start_block;i<7300000;i+=100000)
     )
 }
 
-for (i=start_block;i<7300000;i+=10000)
+for (i=start_block;i<7300000;i+=block_inverval)
 {
     //1518784275, 5400000
-    var newtime = start_block_time+(i-start_block)*18.452;
+    var newtime = start_block_time+(i-start_block)*ave_block_time;
     if (i<5900000){
         data6.push(
             {
@@ -145,6 +152,8 @@ for (i=start_block;i<7300000;i+=10000)
 
 }
 
+console.log(data6);
+
 
 svg.append("rect")
     .attr("x", -0)
@@ -163,14 +172,14 @@ let rect2 = svg.selectAll("rect2")
     .attr("x", function (d) {
         return x(new Date(d.time))-5; })
     .attr("y", function (d) {
-        return d.target[1]+150;
+        return d.target[1]+40;
         //return 100;
     })
     .style("opacity", 0.5)
     .style("fill", "green")
     .attr("width", 1)
     .attr("height",function (d) {
-        return y(data_array.hash_max)-(d.target[1]+150);
+        return y(data_array.hash_max)-(d.target[1]+40);
     //return d.target[1]+150;
     //return 100;
 })
@@ -183,7 +192,7 @@ var circles = svg.selectAll("circle")
     .attr("cx", function (d) {
         return x(new Date(d.time))-5; })
     .attr("cy", function (d) {
-        return d.target[1]+150;
+        return d.target[1]+40;
         //return 100;
     })
     .attr("r", function (d) { return 5; })
@@ -272,10 +281,11 @@ var text3 = svg.selectAll("text1")
     })
     .attr("dx", 0)
     .attr("dy", 0)
+    .style("text-anchor", "middle")
     .style("font-size", "12px")
     .text(function(d){
         //console.log(d.block);
-        if (d.block % 200000 == 0){
+        if (d.block % 100000 == 0){
             return f1(d.block);
         }
         else{
@@ -325,7 +335,7 @@ var circles2 = svg.selectAll("text3")
         //console.log(d);
         return x(new Date(d.time)); })
     .attr("y", function(d) {
-        return d.target[1]+150;
+        return d.target[1]+40;
     })
     .attr( "fill-opacity", 1)
     .attr("dx", 5)
@@ -376,7 +386,7 @@ svg.append("text")
     .text("Today");
 
 svg.append("text")
-    .attr("x", x(new Date()))
+    .attr("x", x(new Date())-250)
     .attr("y", -10)
     .style("font-size", "14px")
     .attr("transform", "translate(0,0) rotate(90)")
@@ -385,7 +395,7 @@ svg.append("text")
 
 svg.append("text")
     .attr("x", x(new Date())-50)
-    .attr("y", 640)
+    .attr("y", 540)
     .style("font-size", "14px")
     //.attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
@@ -393,7 +403,7 @@ svg.append("text")
 
 svg.append("text")
     .attr("x", 840)
-    .attr("y", 580)
+    .attr("y",490)
     .style("font-size", "14px")
     //.attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
