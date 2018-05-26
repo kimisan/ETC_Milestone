@@ -83,7 +83,7 @@ async function main() {
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
             var dbo = db.db("test1");
-            dbo.collection("site10").insertOne(xx, function(err, res) {
+            dbo.collection("site12").insertOne(xx, function(err, res) {
                 if (err){
                     console.log("Repeat");
                 }
