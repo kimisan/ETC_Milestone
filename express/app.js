@@ -27,7 +27,7 @@ app.get('/', async (req, res, next) => {
         console.log("Connected correctly to server");
         const db = client.db(dbName);
         // Get the collection
-        const col = db.collection('site10');
+        const col = db.collection('site12');
         const docs = await col.find().limit(500).toArray();
         //console.log(docs);
 
@@ -89,7 +89,7 @@ app.get('/', async (req, res, next) => {
         //console.log(string_hash);
 
 
-        let polo_data = await rp('https://poloniex.com/public?command=returnChartData&currencyPair=USDT_ETC&start=1514419200&end=9999999999&period=14400')
+        let polo_data = await rp('https://poloniex.com/public?command=returnChartData&currencyPair=USDT_ETC&start=1514419200&end=9999999999&period=1800')
             .then(function (htmlString) {
                 // Process html...
                 //console.log(htmlString);
@@ -99,14 +99,36 @@ app.get('/', async (req, res, next) => {
                 // Crawling failed...
             });
 
-        console.log(typeof polo_data);
+        //console.log(typeof polo_data);
+
+
+        let csvFilePath='public/dataset/ETCG.csv';
+        let csv=require('csvtojson');
+        csv()
+            .fromFile(csvFilePath)
+            .then((jsonObj)=>{
+                //console.log(jsonObj);
+            });
+
+        // Async / await usage
+        let etcg_price = await csv().fromFile(csvFilePath);
+        //console.log(etcg_price);
+
+        let all_data = {};
+        all_data.etcg_price = etcg_price;
+        console.log(all_data);
+        let string_all_data = JSON.stringify(all_data);
+        console.log(string_all_data);
+
+
 
         res.render('index', {
             title: 'Hey',
             message: 'Hello there!',
             hashrate: string_hash,
             data:string_data,
-            polo_data:polo_data
+            polo_data:polo_data,
+            string_all_data:string_all_data,
         })
     } catch (e) {
         //this will eventually be handled by your error handling middleware
