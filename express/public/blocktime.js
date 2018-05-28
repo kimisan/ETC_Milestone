@@ -235,7 +235,7 @@ function f() {
             //console.log(d.timestamp);
             return x(new Date(d.timestamp*1000)); })
         .attr("cy", function (d) {
-            console.log(d);
+            //console.log(d);
             return y(d.blocktime);
             //return y(d.difficulty);
             //return y(d.totalDifficulty);
