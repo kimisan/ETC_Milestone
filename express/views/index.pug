@@ -16,8 +16,14 @@ html
 
             let polo_data = "#{polo_data}";
             let polo_data_array = JSON.parse(polo_data.replace(/&quot;/g, '"'));
+            //console.log(polo_data_array);
+
+            let all_data = "#{string_all_data}";
+            let all_data_array = JSON.parse(all_data.replace(/&quot;/g, '"'));
+            console.log(all_data_array);
 
     body
         div(id='div-class')
         script(src='./1041.js')
-        script(src='./blocktime.js')
+        //script(src='./blocktime.js')
+        script(src='./polo_price.js')
