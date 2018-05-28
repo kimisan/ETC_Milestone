@@ -2,7 +2,7 @@ function f() {
     // set the dimensions and margins of the graph
     var margin = {top: 20, right: 20, bottom: 30, left: 50},
         width = 960 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        height = 300 - margin.top - margin.bottom;
 
 //var x = d3.scaleLinear().range([0, 50]);
     var x = d3.scaleTime().range([0, width]);
@@ -72,7 +72,7 @@ function f() {
 //x.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
     x.domain([new Date("2018-01-01"), new Date("2018-12-31")]);
 //y.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-    y.domain([0, 600000000000000]);
+    y.domain([0, 500000000000000]);
 
 
     var data3= [];
@@ -208,11 +208,11 @@ function f() {
 
 
 
-    console.log(data_array.hash_max);
-    console.log(data_array.hash_min);
-    console.log(y(data_array.hash_max));
-    console.log(y(data_array.hash_min));
-    console.log(y(data_array.hash_min)-y(data_array.hash_max));
+    //console.log(data_array.hash_max);
+    //console.log(data_array.hash_min);
+    //console.log(y(data_array.hash_max));
+    //console.log(y(data_array.hash_min));
+    //console.log(y(data_array.hash_min)-y(data_array.hash_max));
 
     svg.append("rect")
         .attr("x", 0)
@@ -339,7 +339,7 @@ function f() {
     svg.append("g")
         .call(d3.axisLeft(y)
         //.ticks(20)
-            .tickFormat(d3.format(".0s")));
+            .tickFormat(d3.format(".3s")));
 
 
     var valueline = d3.line()
