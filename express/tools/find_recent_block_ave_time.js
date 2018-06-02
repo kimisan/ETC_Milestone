@@ -56,7 +56,7 @@ async function main() {
 
     var count =0
     var sum =0;
-    for (var i=5887000;i< 5890000; i += 1)
+    for (var i=5870000;i< 6904593; i += 1)
     {
         var result1 = await getblock(i);
         //console.log(result1.difficulty.toString());
