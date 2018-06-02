@@ -66,7 +66,7 @@ var jsonCircles = [
         "color" : "green"
     },
 
-    { "Milestone": "2018-05-29",
+    { "Milestone": "2018-05-30",
         "text":"ECIP 1041 - Remove Difficulty Bomb",
         "status":"uncompleted",
         "color" : "green"
@@ -79,7 +79,7 @@ var jsonCircles = [
 // Scale the range of the data
 //x.domain([0, 1]);
 //x.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-x.domain([new Date("2018-01-01"), new Date("2018-12-31")]);
+x.domain([new Date("2018-05-20"), new Date("2018-6-10")]);
 //y.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
 y.domain([0, 1000000000000000]);
 
@@ -104,32 +104,20 @@ var data6=[];
 var i;
 var start_block=5885000;
 var start_block_time=1527259520;
-var ave_block_time=23.91;
+//23.91
+var ave_block_time=14.665;
 var block_inverval=5000;
 
 //var base_diff= 140 * Math.pow(10,12);
-var base_diff= 150 * Math.pow(10,12);
+var base_diff= 145 * Math.pow(10,12);
 //var base_diff= 0;
 
-for (i=start_block;i<7300000;i+=block_inverval)
-{
-    //1518784275, 5400000
-    var newtime = start_block_time+(i-start_block)*ave_block_time;
-    data5.push(
-        {
-            time: newtime,
-            block:i,
-            //diff : Math.pow(2, (i/100000)-2-20)+base_diff-100000000000,
-            diff : Math.pow(2, (i/100000)-2-20)+base_diff,
-        }
-    )
-}
 
 for (i=start_block;i<7300000;i+=block_inverval)
 {
     //1518784275, 5400000
     var newtime = start_block_time+(i-start_block)*ave_block_time;
-    if (i<5900000){
+
         data6.push(
             {
                 time: newtime,
@@ -138,17 +126,7 @@ for (i=start_block;i<7300000;i+=block_inverval)
                 diff : base_diff,
             }
         )
-    }
-    else{
-        data6.push(
-            {
-                time: newtime,
-                block:i,
-                //diff : base_diff-100000000000-10000000000000,
-                diff : base_diff-10000000000000,
-            }
-        )
-    }
+
 
 }
 
@@ -269,7 +247,7 @@ var circles3 = svg.selectAll("circle3")
 var f1 = d3.format(".2s");
 
 var text3 = svg.selectAll("text1")
-    .data(data5)
+    .data(data6)
     .enter()
     .append("text")
     .attr("class", "text1")
@@ -285,7 +263,7 @@ var text3 = svg.selectAll("text1")
     .style("font-size", "12px")
     .text(function(d){
         //console.log(d.block);
-        if (d.block % 100000 == 0){
+        if (d.block % 200000 == 0){
             return f1(d.block);
         }
         else{
@@ -409,12 +387,3 @@ svg.append("text")
     .attr('text-anchor', 'middle')
     .style('fill', 'green')
     .text("ECIP-1041");
-
-svg.append("text")
-    .attr("x", 840)
-    .attr("y", 440)
-    .style("font-size", "14px")
-    //.attr("transform", "translate(0,0) rotate(90)")
-    .attr('text-anchor', 'middle')
-    .style('fill', 'red')
-    .text("ECIP-1010");
