@@ -25,7 +25,7 @@ app.get('/', async (req, res, next) => {
         console.log("Connected correctly to server");
         const db = client.db(dbName);
         // Get the collection
-        const col = db.collection('site12');
+        const col = db.collection('site17');
         const docs = await col.find().limit(500).toArray();
         //console.log(docs);
 
