@@ -29,46 +29,21 @@ svg.append("clipPath")       // define a clip path
 
 var jsonCircles = [
 
-    { "Milestone": "2018-02-20",
-        "text": "Ethereum Classic Geth 5.0.0 (with ECIP 1041)",
-        "status":"completed",
-        "color" : "green"
-    },
-    { "Milestone": "2018-03-05",
-        "text": "ETC handled over 100,000 in transactions per day",
-        "status":"completed",
-        "color" : "green"
-    },
-    { "Milestone": "2018-03-27",
-        "text": "Ethereum Classic Geth 5.1.0 (with ECIP 1041)",
-        "status":"completed",
-        "color" : "green"
-    },
-    { "Milestone": "2018-04-06",
-        "text": "Ethereum Classic Geth 5.1.1 (with ECIP 1041)",
-        "status":"completed",
-        "color" : "green"
-    },
-
-    { "Milestone": "2018-04-19",
-        "text": "Ethereum Classic Geth 5.2.0 (with ECIP 1041)",
-        "status":"completed",
-        "color" : "green"
-    },
-    { "Milestone": "2018-05-07",
-        "text": "Ethereum Classic Geth 5.2.1 (with ECIP 1041)",
-        "status":"completed",
-        "color" : "green"
-    },
-    { "Milestone": "2018-05-14",
-        "text": "Ethereum Classic Geth 5.3.0 (with ECIP 1041)",
-        "status":"completed",
-        "color" : "green"
-    },
 
     { "Milestone": "2018-05-30",
         "text":"ECIP 1041 - Remove Difficulty Bomb",
         "status":"uncompleted",
+        "color" : "green"
+    },
+
+    { "Milestone": "2018-06-12",
+        "text":"Coinbase Announces Ethereum Classic Support",
+        "status":"completed",
+        "color" : "green"
+    },
+    { "Milestone": "2018-06-12",
+        "text":"Binance add new ETC Trading Pairs ",
+        "status":"completed",
         "color" : "green"
     },
 
@@ -79,9 +54,9 @@ var jsonCircles = [
 // Scale the range of the data
 //x.domain([0, 1]);
 //x.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-x.domain([new Date("2018-05-20"), new Date("2018-6-10")]);
+x.domain([new Date("2018-05-15"), new Date("2018-7-5")]);
 //y.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-y.domain([0, 1000000000000000]);
+y.domain([0, 500000000000000]);
 
 
 var data3= [];
@@ -107,6 +82,8 @@ var start_block_time=1527259520;
 //23.91
 var ave_block_time=14.665;
 var block_inverval=5000;
+
+var milestone_text_addjust = 180;
 
 //var base_diff= 140 * Math.pow(10,12);
 var base_diff= 145 * Math.pow(10,12);
@@ -150,14 +127,14 @@ let rect2 = svg.selectAll("rect2")
     .attr("x", function (d) {
         return x(new Date(d.time))-5; })
     .attr("y", function (d) {
-        return d.target[1]+40;
+        return d.target[1]+milestone_text_addjust;
         //return 100;
     })
     .style("opacity", 0.5)
     .style("fill", "green")
     .attr("width", 1)
     .attr("height",function (d) {
-        return y(data_array.hash_max)-(d.target[1]+40);
+        return y(data_array.hash_max)-(d.target[1]+milestone_text_addjust);
     //return d.target[1]+150;
     //return 100;
 })
@@ -170,7 +147,7 @@ var circles = svg.selectAll("circle")
     .attr("cx", function (d) {
         return x(new Date(d.time))-5; })
     .attr("cy", function (d) {
-        return d.target[1]+40;
+        return d.target[1]+milestone_text_addjust;
         //return 100;
     })
     .attr("r", function (d) { return 5; })
@@ -214,6 +191,39 @@ svg.append("rect")
     .attr("height",y(data_array.hash_min)-y(data_array.hash_max));
 //.attr("height",y(new Date(1526234275*1000)));
 
+svg.append("rect")
+    .attr("x", x(new Date("2018-05-30")))
+    .attr("y", y(152673898791420))
+    .style("opacity", 0.3)
+    .style("fill", "red")
+    .attr("width", 10)
+    .attr("height",y(data_array.hash_min)-y(152673898791420));
+
+console.log(((data_array.hash_min-152673898791420)/152673898791420)*100)
+
+svg.append("rect")
+    .attr("x", x(new Date("2018-05-30")))
+    .attr("y", y(data_array.hash_min))
+    .style("opacity", 0.3)
+    .style("fill", "green")
+    .attr("width", (x(new Date("2018-06-21"))-x(new Date("2018-05-30"))))
+    .attr("height",10);
+
+svg.append("rect")
+    .attr("x", x(new Date("2018-06-21")))
+    .attr("y", y(152673898791420))
+    .style("opacity", 0.3)
+    .style("fill", "green")
+    .attr("width", 10)
+    .attr("height",y(data_array.hash_min)-y(152673898791420));
+
+var start = moment([2018, 5, 30]);
+var end   = moment([2018, 6, 21]);
+end.from(start);       // "in 5 days"
+end.from(start, true); // "5 days"
+console.log(end.from(start));
+
+
 
 var circles3 = svg.selectAll("circle3")
     .data(hashrate_array.cars)
@@ -246,32 +256,7 @@ var circles3 = svg.selectAll("circle3")
 
 var f1 = d3.format(".2s");
 
-var text3 = svg.selectAll("text1")
-    .data(data6)
-    .enter()
-    .append("text")
-    .attr("class", "text1")
-    .attr("x", function (d) {
-        //console.log(d);
-        return x(new Date(d.time*1000)); })
-    .attr("y", function (d) {
-        return height-10;
-    })
-    .attr("dx", 0)
-    .attr("dy", 0)
-    .style("text-anchor", "middle")
-    .style("font-size", "12px")
-    .text(function(d){
-        //console.log(d.block);
-        if (d.block % 200000 == 0){
-            return f1(d.block);
-        }
-        else{
-            return null;
-        }
 
-
-    });
 
 var link = d3.linkHorizontal()
     .x(function(d) {
@@ -313,7 +298,7 @@ var circles2 = svg.selectAll("text3")
         //console.log(d);
         return x(new Date(d.time)); })
     .attr("y", function(d) {
-        return d.target[1]+40;
+        return d.target[1]+milestone_text_addjust;
     })
     .attr( "fill-opacity", 1)
     .attr("dx", 5)
@@ -325,13 +310,14 @@ var circles2 = svg.selectAll("text3")
 
 svg.append("g")
     .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x));
+    .call(d3.axisBottom(x)
+    )
 
 // Add the Y Axis
 svg.append("g")
     .call(d3.axisLeft(y)
     //.ticks(20)
-        .tickFormat(d3.format(".0s")));
+        .tickFormat(d3.format(".2s")));
 
 
 var valueline = d3.line()
@@ -357,33 +343,36 @@ svg.append("path")
 
 svg.append("text")
     .attr("x", x(new Date()))
-    .attr("y", 0)
+    .attr("y", 150)
     .style("font-size", "14px")
     //.attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
     .text("Today");
 
 svg.append("text")
-    .attr("x", x(new Date())-250)
+    .attr("x", x(new Date())-430)
     .attr("y", -10)
     .style("font-size", "14px")
     .attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
     .text("Ethereum Classic Difficulty");
 
-svg.append("text")
-    .attr("x", x(new Date())-50)
-    .attr("y", 540)
-    .style("font-size", "14px")
-    //.attr("transform", "translate(0,0) rotate(90)")
-    .attr('text-anchor', 'middle')
-    .text("Block:");
+
 
 svg.append("text")
     .attr("x", 840)
-    .attr("y",490)
+    .attr("y",385)
     .style("font-size", "14px")
     //.attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
     .style('fill', 'green')
     .text("ECIP-1041");
+
+svg.append("text")
+    .attr("x", 460)
+    .attr("y",465)
+    .style("font-size", "14px")
+    //.attr("transform", "translate(0,0) rotate(90)")
+    .attr('text-anchor', 'middle')
+    .style('fill', 'green')
+    .text(end.from(start));
