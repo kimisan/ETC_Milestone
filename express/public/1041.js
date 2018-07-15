@@ -46,6 +46,23 @@ var jsonCircles = [
         "status":"completed",
         "color" : "green"
     },
+    { "Milestone": "2018-06-22",
+        "text":"Japan FSA orders improvements at crypto exchanges",
+        "status":"completed",
+        "color" : "green"
+    },
+    { "Milestone": "2018-06-26",
+        "text":"Emerald-wallet v1.0.0",
+        "status":"completed",
+        "color" : "green"
+    },
+
+    { "Milestone": "2018-07-16",
+        "text":"Bitmain Antminer E3(B3)",
+        "status":"completed",
+        "color" : "green"
+    },
+
 
 ];
 
@@ -54,7 +71,7 @@ var jsonCircles = [
 // Scale the range of the data
 //x.domain([0, 1]);
 //x.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-x.domain([new Date("2018-05-15"), new Date("2018-7-5")]);
+x.domain([new Date("2018-05-15"), new Date("2018-7-30")]);
 //y.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
 y.domain([0, 500000000000000]);
 
@@ -83,7 +100,7 @@ var start_block_time=1527259520;
 var ave_block_time=14.665;
 var block_inverval=5000;
 
-var milestone_text_addjust = 180;
+var milestone_text_addjust = 30;
 
 //var base_diff= 140 * Math.pow(10,12);
 var base_diff= 145 * Math.pow(10,12);
@@ -191,31 +208,7 @@ svg.append("rect")
     .attr("height",y(data_array.hash_min)-y(data_array.hash_max));
 //.attr("height",y(new Date(1526234275*1000)));
 
-svg.append("rect")
-    .attr("x", x(new Date("2018-05-30")))
-    .attr("y", y(152673898791420))
-    .style("opacity", 0.3)
-    .style("fill", "red")
-    .attr("width", 10)
-    .attr("height",y(data_array.hash_min)-y(152673898791420));
 
-console.log(((data_array.hash_min-152673898791420)/152673898791420)*100)
-
-svg.append("rect")
-    .attr("x", x(new Date("2018-05-30")))
-    .attr("y", y(data_array.hash_min))
-    .style("opacity", 0.3)
-    .style("fill", "green")
-    .attr("width", (x(new Date("2018-06-21"))-x(new Date("2018-05-30"))))
-    .attr("height",10);
-
-svg.append("rect")
-    .attr("x", x(new Date("2018-06-21")))
-    .attr("y", y(152673898791420))
-    .style("opacity", 0.3)
-    .style("fill", "green")
-    .attr("width", 10)
-    .attr("height",y(data_array.hash_min)-y(152673898791420));
 
 var start = moment([2018, 5, 30]);
 var end   = moment([2018, 6, 21]);
@@ -343,20 +336,19 @@ svg.append("path")
 
 svg.append("text")
     .attr("x", x(new Date()))
-    .attr("y", 150)
+    .attr("y", 50)
     .style("font-size", "14px")
     //.attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
     .text("Today");
 
 svg.append("text")
-    .attr("x", x(new Date())-430)
+    .attr("x", x(new Date())-490)
     .attr("y", -10)
     .style("font-size", "14px")
     .attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
     .text("Ethereum Classic Difficulty");
-
 
 
 svg.append("text")
@@ -367,12 +359,3 @@ svg.append("text")
     .attr('text-anchor', 'middle')
     .style('fill', 'green')
     .text("ECIP-1041");
-
-svg.append("text")
-    .attr("x", 460)
-    .attr("y",465)
-    .style("font-size", "14px")
-    //.attr("transform", "translate(0,0) rotate(90)")
-    .attr('text-anchor', 'middle')
-    .style('fill', 'green')
-    .text(end.from(start));
