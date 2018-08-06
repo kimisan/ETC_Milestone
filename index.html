@@ -49,56 +49,46 @@
             "status":"completed",
             "color" : "green"
         },
-        { "Milestone": "2018-02-20",
-            "text": "Ethereum Classic Geth 5.0.0",
-            "status":"completed",
-            "color" : "green"
-        },
+
         { "Milestone": "2018-03-05",
             "text": "ETC handled over 100,000 in transactions per day",
             "status":"completed",
             "color" : "green"
         },
-        { "Milestone": "2018-03-27",
-            "text": "Ethereum Classic Geth 5.1.0",
-            "status":"completed",
-            "color" : "green"
-        },
-        { "Milestone": "2018-04-06",
-            "text": "Ethereum Classic Geth 5.1.1",
-            "status":"completed",
-            "color" : "green"
-        },
-
-        { "Milestone": "2018-04-19",
-            "text": "Ethereum Classic Geth 5.2.0",
-            "status":"completed",
-            "color" : "green"
-        },
-
-        { "Milestone": "2018-05-24",
-            "text":"ECIP 1041 - Remove Difficulty Bomb",
-            "status":"uncompleted",
-            "color" : "green"
-        },
-        { "Milestone": "2018-05-30",
+        { "Milestone": "2018-05-2",
             "text":"Working prototype of Sidechain",
+            "status":"completed",
+            "color" : "green"
+        },
+        { "Milestone": "2018-05-29",
+            "text":"ECIP 1041 - Remove Difficulty Bomb",
+            "status":"completed",
+            "color" : "green"
+        },
+
+        { "Milestone": "2018-06-12",
+            "text":"Coinbase Announces Ethereum Classic Support",
+            "status":"completed",
+            "color" : "green"
+        },
+        { "Milestone": "2018-06-12",
+            "text":"Binance add new ETC Trading Pairs ",
+            "status":"completed",
+            "color" : "green"
+        },
+        { "Milestone": "2018-06-26",
+            "text":"Emerald - Ethereum Classic Wallet v1.0.0",
+            "status":"completed",
+            "color" : "green"
+        },
+        { "Milestone": "2018-08-07",
+            "text":"Final Testing for ETC Support on Coinbase (expected)",
             "status":"uncompleted",
             "color" : "green"
         },
-        { "Milestone": "2018-06-30",
-            "text":"Emerald Mobile Wallet",
-            "status":"uncompleted",
-            "color" : "green"
-        },
-        { "Milestone": "2018-07-30",
-            "text":"Emerald SDK First Release",
-            "status":"uncompleted",
-            "color" : "green"
-        },
-        { "Milestone": "2018-08-30",
-            "text":"JIT Compilation in SputnikVM",
-            "status":"uncompleted",
+        { "Milestone": "2018-09-12",
+            "text":"2018 ETHEREUM CLASSIC SUMMIT",
+            "status":"completed",
             "color" : "green"
         },
         { "Milestone": "2018-09-30",
@@ -137,7 +127,7 @@
         data3.push(
             {
                 source: [0, y(new Date(value.Milestone))],
-                target: [1, (i+0.5)*45],
+                target: [1, (i+0.5)*51],
                 text:value.text,
                 status:value.status,
                 color : value.color,
@@ -183,44 +173,8 @@
         })
         .style("fill", function(d) { return "green"; });
 
-    var circles2 = svg.selectAll("circle2")
-        .data(data5)
-        .enter()
-        .append("circle")
-        .attr("cx", function (d) {
-            return -220; })
-        .attr("cy", function (d) {
 
-            return y(new Date(d.time*1000));
-        })
-        .attr("r", function (d) { return 2; })
-        .attr('fill-opacity', function(d) {
-            if (d.status == "completed"){
-                return 1;
-            }
-            else {
-                return 0.5;
-            }
-        })
-        .style("fill", function(d) { return "purple"; });
 
-    var text3 = svg.selectAll("text1")
-        .data(data5)
-        .enter()
-        .append("text")
-        .attr("class", "text1")
-        .attr("x", function (d) {
-            //console.log(d);
-            return -220; })
-        .attr("y", function (d) {
-            return y(new Date(d.time*1000));
-        })
-        .attr("dx", 5)
-        .attr("dy", 5)
-        .style("font-size", "14px")
-        .text(function(d){
-            return d.block;
-        });
 
     var link = d3.linkHorizontal()
         .x(function(d) {
@@ -273,6 +227,14 @@
         })
         .attr("dx", 5)
         .attr("dy", 5)
+        .style('fill', function(d) {
+            if (d.text == "2018 ETHEREUM CLASSIC SUMMIT"){
+                return "green";
+            }
+            else {
+                return "black";
+            }
+        })
         .style("font-size", "14px")
         .text(function(d){
             return d.text;
@@ -301,10 +263,10 @@
     svg.append("rect")
         .attr("x", -90)
         .attr("y", 0)
-        .style("opacity", 0.5)
+        .style("opacity", 0.2)
         .style("fill", "green")
         .attr("width", 20)
-        .attr("height",y(new Date(1527135396*1000)));
+        .attr("height",y(new Date("2018-5-29")));
 
     svg.append("text")
         .attr("x", 50)
@@ -315,14 +277,14 @@
 
     svg.append("rect")
         .attr("x", -90)
-        .attr("y", y(new Date(1527135396*1000)))
-        .style("opacity", 0.2)
+        .attr("y", y(new Date("2018-5-29")))
+        .style("opacity", 0.5)
         .style("fill", "green")
         .attr("width", 20)
-        .attr("height",height-y(new Date(1527135396*1000)));
+        .attr("height",height-y(new Date("2018-5-29")));
 
     svg.append("text")
-        .attr("x", 320)
+        .attr("x", 330)
         .attr("y", 85)
         .attr("transform", "translate(0,0) rotate(90)")
         .attr('text-anchor', 'middle')
@@ -344,6 +306,12 @@
         .attr('text-anchor', 'middle')
         .text("ECIP-1017");
 
+    var myimage = svg.append('image')
+        .attr('xlink:href', 'https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg')
+        .attr('x', 320)
+        .attr('y', 406)
+        .attr('width', 50)
+        .attr('height', 50)
 
 </script>
 
