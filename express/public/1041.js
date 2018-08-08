@@ -62,6 +62,11 @@ var jsonCircles = [
         "status":"completed",
         "color" : "green"
     },
+    { "Milestone": "2018-08-08",
+        "text":"Coinbase Final Testing(est.)",
+        "status":"uncompleted",
+        "color" : "green"
+    },
 
 
 ];
@@ -71,7 +76,7 @@ var jsonCircles = [
 // Scale the range of the data
 //x.domain([0, 1]);
 //x.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-x.domain([new Date("2018-05-15"), new Date("2018-7-30")]);
+x.domain([new Date("2018-05-15"), new Date("2018-8-30")]);
 //y.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
 y.domain([0, 500000000000000]);
 
@@ -82,7 +87,7 @@ _.forEach(jsonCircles, function(value,i) {
     data3.push(
         {
             source: [0, y(new Date(value.Milestone))],
-            target: [1, (i+0.5)*51],
+            target: [1, (i+0.5)*45],
             time: value.Milestone,
             text:value.text,
             status:value.status,
@@ -100,7 +105,7 @@ var start_block_time=1527259520;
 var ave_block_time=14.665;
 var block_inverval=5000;
 
-var milestone_text_addjust = 30;
+var milestone_text_addjust = 0;
 
 //var base_diff= 140 * Math.pow(10,12);
 var base_diff= 145 * Math.pow(10,12);
@@ -325,14 +330,6 @@ svg.append("path")
     .attr("d", valueline)
     .style("stroke", "Red");
 
-svg.append("path")
-    .data([data6])
-    .style("stroke-dasharray", ("3, 3"))
-    .attr("clip-path","url(#rect-clip)")
-    .attr("class", "line")
-    .attr("d", valueline)
-    .style("stroke", "Green");
-
 
 svg.append("text")
     .attr("x", x(new Date()))
@@ -350,12 +347,3 @@ svg.append("text")
     .attr('text-anchor', 'middle')
     .text("Ethereum Classic Difficulty");
 
-
-svg.append("text")
-    .attr("x", 840)
-    .attr("y",385)
-    .style("font-size", "14px")
-    //.attr("transform", "translate(0,0) rotate(90)")
-    .attr('text-anchor', 'middle')
-    .style('fill', 'green')
-    .text("ECIP-1041");
