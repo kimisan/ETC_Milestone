@@ -55,19 +55,8 @@
             "status":"completed",
             "color" : "green"
         },
-        { "Milestone": "2018-05-2",
-            "text":"Working prototype of Sidechain",
-            "status":"completed",
-            "color" : "green"
-        },
         { "Milestone": "2018-05-29",
             "text":"ECIP 1041 - Remove Difficulty Bomb",
-            "status":"completed",
-            "color" : "green"
-        },
-
-        { "Milestone": "2018-06-12",
-            "text":"Coinbase Announces Ethereum Classic Support",
             "status":"completed",
             "color" : "green"
         },
@@ -82,7 +71,17 @@
             "color" : "green"
         },
         { "Milestone": "2018-08-07",
-            "text":"Final Testing for ETC Support on Coinbase (expected)",
+            "text":"Robinhood Adds Support for Ethereum Classic",
+            "status":"completed",
+            "color" : "green"
+        },
+        { "Milestone": "2018-08-08",
+            "text":"Coinbase Pro accepted transfers of Ethereum Classic",
+            "status":"completed",
+            "color" : "green"
+        },
+        { "Milestone": "2018-08-23",
+            "text":"Coinbase Adds Support for Ethereum Classic(2 weeks)",
             "status":"uncompleted",
             "color" : "green"
         },
@@ -127,7 +126,7 @@
         data3.push(
             {
                 source: [0, y(new Date(value.Milestone))],
-                target: [1, (i+0.5)*51],
+                target: [1, (i+0.5)*50],
                 text:value.text,
                 status:value.status,
                 color : value.color,
@@ -309,7 +308,7 @@
     var myimage = svg.append('image')
         .attr('xlink:href', 'https://upload.wikimedia.org/wikipedia/commons/0/09/Flag_of_South_Korea.svg')
         .attr('x', 320)
-        .attr('y', 406)
+        .attr('y', 400)
         .attr('width', 50)
         .attr('height', 50)
 
