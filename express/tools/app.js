@@ -54,40 +54,53 @@ async function main() {
 
 
 
+
     var count =0
     var sum =0;
     for (var i=5845000;i< 7200000; i += 200)
     {
-        var result1 = await getblock(i);
-        //console.log(result1.difficulty.toString());
-        var result2 = await getblock(i-1);
-        //console.log(result2.timestamp);
-        console.log(parseInt(result1.timestamp)-parseInt(result2.timestamp));
-        var blocktime = parseInt(result1.timestamp)-parseInt(result2.timestamp);
+
+        try {
+            //eval('alert("Hello world)');
+            var result1 = await getblock(i);
+            //console.log(result1.difficulty.toString());
+            var result2 = await getblock(i-1);
+            //console.log(result2.timestamp);
+            console.log(parseInt(result1.timestamp)-parseInt(result2.timestamp));
+            var blocktime = parseInt(result1.timestamp)-parseInt(result2.timestamp);
 
 
-        var xx ={
-            _id: result1.number,
-            difficulty:result1.difficulty.toString(),
-            miner:result1.miner,
-            timestamp:result1.timestamp,
-            totalDifficulty:result1.totalDifficulty.toString(),
-            blocktime:blocktime
+            var xx ={
+                _id: result1.number,
+                difficulty:result1.difficulty.toString(),
+                miner:result1.miner,
+                timestamp:result1.timestamp,
+                totalDifficulty:result1.totalDifficulty.toString(),
+                blocktime:blocktime
 
-        };
+            };
 
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            var dbo = db.db("test1");
-            dbo.collection("site32").insertOne(xx, function(err, res) {
-                if (err){
-                    console.log("Repeat");
-                }
-                console.log("文档插入成功");
-                db.close();
+            MongoClient.connect(url, function(err, db) {
+                if (err) throw err;
+                var dbo = db.db("test1");
+                dbo.collection("site53").insertOne(xx, function(err, res) {
+                    if (err){
+                        console.log("Repeat");
+                    }
+                    console.log("文档插入成功");
+                    db.close();
 
+                });
             });
-        });
+
+        }
+        catch(error) {
+            console.error(error);
+            // expected output: SyntaxError: unterminated string literal
+            // Note - error messages will vary depending on browser
+        }
+
+
 
 
 

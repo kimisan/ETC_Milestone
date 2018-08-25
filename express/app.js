@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+var rp = require('request-promise');
+
 Web3 = require('web3')
 
 
@@ -19,15 +21,30 @@ var _ = require('lodash');
 
 app.get('/', async (req, res, next) => {
     try {
+
+        let ETC_price_data;
+
+        await rp('https://poloniex.com/public?command=returnChartData&currencyPair=USDT_ETC&start=1509508800&end=9999999999&period=300')
+            .then(function (htmlString) {
+                // Process html...
+                ETC_price_data = JSON.parse(htmlString);
+                console.log(ETC_price_data);
+            })
+            .catch(function (err) {
+                // Crawling failed...
+            });
+
+
         //const user = await getUserFromDb({ id: req.params.id })
         //res.json(user);
         client = await MongoClient.connect(url);
         console.log("Connected correctly to server");
         const db = client.db(dbName);
         // Get the collection
-        const col = db.collection('site32');
+        const col = db.collection('site53');
         const docs = await col.find().limit(5000).toArray();
         //console.log(docs);
+
 
 
         var
@@ -46,8 +63,6 @@ app.get('/', async (req, res, next) => {
             hash_array.cars.push(
                 {block: value._id, difficulty: value.difficulty, miner: value.miner, timestamp: value.timestamp, totalDifficulty:value.totalDifficulty, blocktime: value.blocktime }
             );
-
-
         }));
 
         var string_hash = JSON.stringify(hash_array);
@@ -55,27 +70,32 @@ app.get('/', async (req, res, next) => {
 
 
 
-        var arr = [1,2,3];
-        var max = await arr.reduce(function(a, b) {
-            return Math.max(a, b);
-        });
-        //console.log(max);
-
         let hash_max  = await Math.max.apply(Math,hash_array.cars.map(function(d){
             //console.log(d.difficulty);
             return d.difficulty;
         }))
+
         let hash_min  = await Math.min.apply(Math,hash_array.cars.map(function(d){
             //console.log(d);
             return d.difficulty;
-        }))
+        }));
 
-        console.log(hash_min);
+        let hash_latest = await Promise.all([_.maxBy(hash_array.cars, function(o) {
+            //console.log(o.timestamp);
+            return o.timestamp;
+        })]);
+
+        //console.log(result2);
+
+
+        //console.log(hash_timestamp);
 
         let data = {
 
             "hash_max": hash_max,
             "hash_min": hash_min,
+            "hash_latest": hash_latest,
+            "ETC_price_data": ETC_price_data,
             "number": 123,
             "string": "Hello World"
         }

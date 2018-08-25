@@ -1,12 +1,13 @@
 // set the dimensions and margins of the graph
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
+    width = 1300 - margin.left - margin.right,
+    height = 650 - margin.top - margin.bottom;
 
 //var x = d3.scaleLinear().range([0, 50]);
 var x = d3.scaleTime().range([0, width]);
 //var y = d3.scaleTime().range([0, height]);
 var y = d3.scaleLinear().range([height, 0]);
+var y2 = d3.scaleLinear().range([height, 0]);
 
 var _s1 = d3.format("s");
 
@@ -62,12 +63,22 @@ var jsonCircles = [
         "status":"completed",
         "color" : "green"
     },
-    { "Milestone": "2018-08-08",
-        "text":"Coinbase Final Testing(est.)",
-        "status":"uncompleted",
+    { "Milestone": "2018-08-03",
+        "text":"Coinbase Announces Final Testing Ahead of $ETC Listing",
+        "status":"completed",
         "color" : "green"
     },
 
+    { "Milestone": "2018-08-08",
+        "text":"Bitcoin ETF delay",
+        "status":"completed",
+        "color" : "green"
+    },
+    { "Milestone": "2018-08-17",
+        "text":"Coinbase support $ETC",
+        "status":"uncompleted",
+        "color" : "green"
+    },
 
 ];
 
@@ -76,9 +87,11 @@ var jsonCircles = [
 // Scale the range of the data
 //x.domain([0, 1]);
 //x.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-x.domain([new Date("2018-05-15"), new Date("2018-8-30")]);
+x.domain([new Date("2018-05-15"), new Date("2018-9-20")]);
+//x.domain([new Date("2018-07-15"), new Date("2018-9-10")]);
 //y.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
 y.domain([0, 500000000000000]);
+y2.domain([0, 49]);
 
 
 var data3= [];
@@ -87,7 +100,7 @@ _.forEach(jsonCircles, function(value,i) {
     data3.push(
         {
             source: [0, y(new Date(value.Milestone))],
-            target: [1, (i+0.5)*45],
+            target: [1, (i+0.5)*35],
             time: value.Milestone,
             text:value.text,
             status:value.status,
@@ -117,19 +130,19 @@ for (i=start_block;i<7300000;i+=block_inverval)
     //1518784275, 5400000
     var newtime = start_block_time+(i-start_block)*ave_block_time;
 
-        data6.push(
-            {
-                time: newtime,
-                block:i,
-                //diff : base_diff-100000000000,
-                diff : base_diff,
-            }
-        )
+    data6.push(
+        {
+            time: newtime,
+            block:i,
+            //diff : base_diff-100000000000,
+            diff : base_diff,
+        }
+    )
 
 
 }
 
-console.log(data6);
+//console.log(data6);
 
 
 svg.append("rect")
@@ -157,9 +170,11 @@ let rect2 = svg.selectAll("rect2")
     .attr("width", 1)
     .attr("height",function (d) {
         return y(data_array.hash_max)-(d.target[1]+milestone_text_addjust);
-    //return d.target[1]+150;
-    //return 100;
-})
+        //return d.target[1]+150;
+        //return 100;
+    });
+
+
 
 
 var circles = svg.selectAll("circle")
@@ -198,11 +213,11 @@ var circles2 = svg.selectAll("circle2")
 
 
 
-console.log(data_array.hash_max);
-console.log(data_array.hash_min);
-console.log(y(data_array.hash_max));
-console.log(y(data_array.hash_min));
-console.log(y(data_array.hash_min)-y(data_array.hash_max));
+//console.log(data_array.hash_max);
+//console.log(data_array.hash_min);
+//console.log(y(data_array.hash_max));
+//console.log(y(data_array.hash_min));
+//console.log(y(data_array.hash_min)-y(data_array.hash_max));
 
 svg.append("rect")
     .attr("x", 0)
@@ -215,11 +230,13 @@ svg.append("rect")
 
 
 
+
+
 var start = moment([2018, 5, 30]);
 var end   = moment([2018, 6, 21]);
 end.from(start);       // "in 5 days"
 end.from(start, true); // "5 days"
-console.log(end.from(start));
+//console.log(end.from(start));
 
 
 
@@ -245,9 +262,34 @@ var circles3 = svg.selectAll("circle3")
             return 0.5;
         }
     })
-    .style("fill", function(d) { return "purple"; });
+    .style("fill", "purple");
 
 
+//console.log(data_array.ETC_price_data[0]);
+//add ETC price data
+var circles5 = svg.selectAll("circle5")
+    .data(data_array.ETC_price_data)
+    .enter()
+    .append("circle")
+    .attr("clip-path","url(#rect-clip)")
+    .attr("cx", function (d) {
+        //console.log(d.timestamp);
+        return x(new Date(d.date*1000)); })
+    .attr("cy", function (d) {
+        //console.log(d);
+        return y2(d.close);
+        //return y(d.totalDifficulty);
+    })
+    .attr("r", function (d) { return 2; })
+    .attr('fill-opacity', function(d) {
+        if (d.status == "completed"){
+            return 1;
+        }
+        else {
+            return 0.5;
+        }
+    })
+    .style("fill", "green");
 
 
 
@@ -313,23 +355,21 @@ svg.append("g")
 
 // Add the Y Axis
 svg.append("g")
+    .attr("stroke", "purple")
     .call(d3.axisLeft(y)
-    //.ticks(20)
         .tickFormat(d3.format(".2s")));
 
+//add 2nd Y Axis
+svg.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(" + width + " ,0)")
+    //.style("fill", "red")
+    .attr("stroke", "green")
+    .call(d3.axisLeft(y2));
 
 var valueline = d3.line()
     .x(function(d) { return x(new Date(d.time*1000)); })
     .y(function(d) { return y(d.diff); });
-
-svg.append("path")
-    .data([data5])
-    .style("stroke-dasharray", ("3, 3"))
-    .attr("clip-path","url(#rect-clip)")
-    .attr("class", "line")
-    .attr("d", valueline)
-    .style("stroke", "Red");
-
 
 svg.append("text")
     .attr("x", x(new Date()))
@@ -340,10 +380,66 @@ svg.append("text")
     .text("Today");
 
 svg.append("text")
-    .attr("x", x(new Date())-490)
+    .attr("x", x(new Date())-800)
     .attr("y", -10)
     .style("font-size", "14px")
     .attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
+    .attr("stroke", "purple")
     .text("Ethereum Classic Difficulty");
 
+svg.append("text")
+    .attr("x", x(new Date())-800)
+    .attr("y", -1180)
+    .style("font-size", "14px")
+    .attr("transform", "translate(0,0) rotate(90)")
+    .attr('text-anchor', 'middle')
+    .attr("stroke", "green")
+    .text("$ETC/USD");
+
+
+//console.log(data_array.hash_latest[0]);
+console.log(data_array.hash_latest[0].difficulty);
+console.log(data_array.hash_min);
+//console.log(y(data_array.hash_min));
+//console.log(y(data_array.hash_latest[0].difficulty));
+
+
+//Add percentage
+/*
+let rect3 = svg
+    .append("rect")
+    .attr("x", x(new Date("2018-09-10")))
+    .attr("y", y(data_array.hash_latest[0].difficulty))
+    .style("opacity", 1)
+    .style("fill", "green")
+    .attr("width", 10)
+    .attr("height",y(data_array.hash_min)-y(data_array.hash_latest[0].difficulty));
+
+console.log((data_array.hash_latest[0].difficulty-data_array.hash_min)/data_array.hash_min);
+
+var _f1 = d3.format(".0%");
+
+svg.append("text")
+    .attr("x", x(new Date("2018-09-10")))
+    .attr("y", y(data_array.hash_latest[0].difficulty))
+    .style("font-size", "14px")
+    .text(_f1(((data_array.hash_latest[0].difficulty-data_array.hash_min)/data_array.hash_min)));
+
+svg.append("line")          // attach a line
+    .style("stroke", "green")  // colour the line
+    .style("opacity", 0.5)
+    .attr("x1", x("2018-01-01"))     // x position of the first end of the line
+    .attr("y1", y(data_array.hash_latest[0].difficulty))      // y position of the first end of the line
+    .attr("x2", 1170)   // x position of the second end of the line
+    .attr("y2", y(data_array.hash_latest[0].difficulty));    // y position of the second end of the line
+
+svg.append("line")          // attach a line
+    .style("stroke", "green")  // colour the line
+    .style("opacity", 0.5)
+    .attr("x1", x("2018-01-01"))     // x position of the first end of the line
+    .attr("y1", y(data_array.hash_min))      // y position of the first end of the line
+    .attr("x2", 1170)   // x position of the second end of the line
+    .attr("y2", y(data_array.hash_min));    // y position of the second end of the line
+
+    */
