@@ -18,6 +18,8 @@ var svg = d3.select("body").append("svg")
     .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
 
+
+
 //append clip
 svg.append("clipPath")       // define a clip path
     .attr("id", "rect-clip") // give the clipPath an ID
@@ -31,53 +33,40 @@ svg.append("clipPath")       // define a clip path
 var jsonCircles = [
 
 
-    { "Milestone": "2018-05-30",
-        "text":"ECIP 1041 - Remove Difficulty Bomb",
-        "status":"uncompleted",
-        "color" : "green"
-    },
-
-    { "Milestone": "2018-06-12",
-        "text":"Coinbase Announces Ethereum Classic Support",
-        "status":"completed",
-        "color" : "green"
-    },
-    { "Milestone": "2018-06-12",
-        "text":"Binance add new ETC Trading Pairs ",
-        "status":"completed",
-        "color" : "green"
-    },
-    { "Milestone": "2018-06-22",
-        "text":"Japan FSA orders improvements at crypto exchanges",
-        "status":"completed",
-        "color" : "green"
-    },
-    { "Milestone": "2018-06-26",
-        "text":"Emerald-wallet v1.0.0",
-        "status":"completed",
-        "color" : "green"
-    },
-
-    { "Milestone": "2018-07-16",
-        "text":"Bitmain Antminer E3(B3)",
-        "status":"completed",
-        "color" : "green"
-    },
-    { "Milestone": "2018-08-03",
-        "text":"Coinbase Announces Final Testing Ahead of $ETC Listing",
-        "status":"completed",
-        "color" : "green"
-    },
-
     { "Milestone": "2018-08-08",
         "text":"Bitcoin ETF delay",
         "status":"completed",
-        "color" : "green"
+        "color" : "red"
     },
     { "Milestone": "2018-08-17",
         "text":"Coinbase support $ETC",
-        "status":"uncompleted",
+        "status":"completed",
         "color" : "green"
+    },
+    { "Milestone": "2018-08-21",
+        "text":"Bittrex support $ETC",
+        "status":"completed",
+        "color" : "green"
+    },
+    { "Milestone": "2018-08-21",
+        "text":"WeChat Shuts ICO Related Social Media",
+        "status":"completed",
+        "color" : "black"
+    },
+    { "Milestone": "2018-8-23",
+        "text":" Bitcoin ETF disapproval",
+        "status":"completed",
+        "color" : "red"
+    },
+    { "Milestone": "2018-8-24",
+        "text":" Chinese Authorities Issue Joint Warning on ‘Illegal’ Crypto Fundraising",
+        "status":"completed",
+        "color" : "black"
+    },
+    { "Milestone": "2018-8-26",
+        "text":" Baidu banned cryptocurrency related forum",
+        "status":"completed",
+        "color" : "black"
     },
 
 ];
@@ -87,11 +76,11 @@ var jsonCircles = [
 // Scale the range of the data
 //x.domain([0, 1]);
 //x.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-x.domain([new Date("2018-05-15"), new Date("2018-9-20")]);
-//x.domain([new Date("2018-07-15"), new Date("2018-9-10")]);
+//x.domain([new Date("2018-05-15"), new Date("2018-9-20")]);
+x.domain([new Date("2018-08-5"), new Date("2018-9-11")]);
 //y.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-y.domain([0, 500000000000000]);
-y2.domain([0, 49]);
+y.domain([0, 400000000000000]);
+y2.domain([0,34]);
 
 
 var data3= [];
@@ -108,6 +97,7 @@ _.forEach(jsonCircles, function(value,i) {
         }
     )
 });
+
 
 var data5=[];
 var data6=[];
@@ -169,7 +159,7 @@ let rect2 = svg.selectAll("rect2")
     .style("fill", "green")
     .attr("width", 1)
     .attr("height",function (d) {
-        return y(data_array.hash_max)-(d.target[1]+milestone_text_addjust);
+        return y(235817648454285)-(d.target[1]+milestone_text_addjust);
         //return d.target[1]+150;
         //return 100;
     });
@@ -213,23 +203,28 @@ var circles2 = svg.selectAll("circle2")
 
 
 
-//console.log(data_array.hash_max);
+console.log(data_array.hash_max);
 //console.log(data_array.hash_min);
 //console.log(y(data_array.hash_max));
 //console.log(y(data_array.hash_min));
 //console.log(y(data_array.hash_min)-y(data_array.hash_max));
 
+
 svg.append("rect")
     .attr("x", 0)
-    .attr("y", y(data_array.hash_max))
+    .attr("y", y(235817648454285))
     .style("opacity", 0.5)
     .style("fill", "#bada55")
     .attr("width", width)
-    .attr("height",y(data_array.hash_min)-y(data_array.hash_max));
-//.attr("height",y(new Date(1526234275*1000)));
+    .attr("height",170);
 
-
-
+svg.append("rect")
+    .attr("x", 0)
+    .attr("y", y(155817648454285))
+    .style("opacity", 0.2)
+    .style("fill", "green")
+    .attr("width", width)
+    .attr("height",20);
 
 
 var start = moment([2018, 5, 30]);
@@ -239,7 +234,7 @@ end.from(start, true); // "5 days"
 //console.log(end.from(start));
 
 
-
+console.log(hashrate_array.cars);
 var circles3 = svg.selectAll("circle3")
     .data(hashrate_array.cars)
     .enter()
@@ -341,6 +336,9 @@ var circles2 = svg.selectAll("text3")
         return d.target[1]+milestone_text_addjust;
     })
     .attr( "fill-opacity", 1)
+    .style('fill', function(d) {
+        //console.log(d.color)
+        return d.color ; })
     .attr("dx", 5)
     .attr("dy", 5)
     .style("font-size", "14px")
@@ -373,14 +371,14 @@ var valueline = d3.line()
 
 svg.append("text")
     .attr("x", x(new Date()))
-    .attr("y", 50)
+    .attr("y", 20)
     .style("font-size", "14px")
     //.attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
     .text("Today");
 
 svg.append("text")
-    .attr("x", x(new Date())-800)
+    .attr("x", 100)
     .attr("y", -10)
     .style("font-size", "14px")
     .attr("transform", "translate(0,0) rotate(90)")
@@ -389,8 +387,8 @@ svg.append("text")
     .text("Ethereum Classic Difficulty");
 
 svg.append("text")
-    .attr("x", x(new Date())-800)
-    .attr("y", -1180)
+    .attr("x", 50)
+    .attr("y", -1190)
     .style("font-size", "14px")
     .attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
@@ -403,43 +401,3 @@ console.log(data_array.hash_latest[0].difficulty);
 console.log(data_array.hash_min);
 //console.log(y(data_array.hash_min));
 //console.log(y(data_array.hash_latest[0].difficulty));
-
-
-//Add percentage
-/*
-let rect3 = svg
-    .append("rect")
-    .attr("x", x(new Date("2018-09-10")))
-    .attr("y", y(data_array.hash_latest[0].difficulty))
-    .style("opacity", 1)
-    .style("fill", "green")
-    .attr("width", 10)
-    .attr("height",y(data_array.hash_min)-y(data_array.hash_latest[0].difficulty));
-
-console.log((data_array.hash_latest[0].difficulty-data_array.hash_min)/data_array.hash_min);
-
-var _f1 = d3.format(".0%");
-
-svg.append("text")
-    .attr("x", x(new Date("2018-09-10")))
-    .attr("y", y(data_array.hash_latest[0].difficulty))
-    .style("font-size", "14px")
-    .text(_f1(((data_array.hash_latest[0].difficulty-data_array.hash_min)/data_array.hash_min)));
-
-svg.append("line")          // attach a line
-    .style("stroke", "green")  // colour the line
-    .style("opacity", 0.5)
-    .attr("x1", x("2018-01-01"))     // x position of the first end of the line
-    .attr("y1", y(data_array.hash_latest[0].difficulty))      // y position of the first end of the line
-    .attr("x2", 1170)   // x position of the second end of the line
-    .attr("y2", y(data_array.hash_latest[0].difficulty));    // y position of the second end of the line
-
-svg.append("line")          // attach a line
-    .style("stroke", "green")  // colour the line
-    .style("opacity", 0.5)
-    .attr("x1", x("2018-01-01"))     // x position of the first end of the line
-    .attr("y1", y(data_array.hash_min))      // y position of the first end of the line
-    .attr("x2", 1170)   // x position of the second end of the line
-    .attr("y2", y(data_array.hash_min));    // y position of the second end of the line
-
-    */

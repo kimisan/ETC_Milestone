@@ -24,7 +24,8 @@ app.get('/', async (req, res, next) => {
 
         let ETC_price_data;
 
-        await rp('https://poloniex.com/public?command=returnChartData&currencyPair=USDT_ETC&start=1509508800&end=9999999999&period=300')
+        await rp('https://poloniex.com/public?command=returnChartData&currencyPair=USDT_ETC&start=1509508800&end=9999999999&period=1800')
+        //await rp('https://poloniex.com/public?command=returnChartData&currencyPair=USDT_ETC&start=1509508800&end=9999999999&period=300')
             .then(function (htmlString) {
                 // Process html...
                 ETC_price_data = JSON.parse(htmlString);
@@ -41,7 +42,7 @@ app.get('/', async (req, res, next) => {
         console.log("Connected correctly to server");
         const db = client.db(dbName);
         // Get the collection
-        const col = db.collection('site53');
+        const col = db.collection('site67');
         const docs = await col.find().limit(5000).toArray();
         //console.log(docs);
 

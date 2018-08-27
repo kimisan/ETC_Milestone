@@ -57,17 +57,17 @@ async function main() {
 
     var count =0
     var sum =0;
-    for (var i=5845000;i< 7200000; i += 200)
+    for (var i= 6410000;i< 7200000; i += 200)
     {
 
         try {
             //eval('alert("Hello world)');
             var result1 = await getblock(i);
             //console.log(result1.difficulty.toString());
-            var result2 = await getblock(i-1);
+            //var result2 = await getblock(i-1);
             //console.log(result2.timestamp);
-            console.log(parseInt(result1.timestamp)-parseInt(result2.timestamp));
-            var blocktime = parseInt(result1.timestamp)-parseInt(result2.timestamp);
+            //console.log(parseInt(result1.timestamp)-parseInt(result2.timestamp));
+            //var blocktime = parseInt(result1.timestamp)-parseInt(result2.timestamp);
 
 
             var xx ={
@@ -76,14 +76,14 @@ async function main() {
                 miner:result1.miner,
                 timestamp:result1.timestamp,
                 totalDifficulty:result1.totalDifficulty.toString(),
-                blocktime:blocktime
+                //blocktime:blocktime
 
             };
 
             MongoClient.connect(url, function(err, db) {
                 if (err) throw err;
                 var dbo = db.db("test1");
-                dbo.collection("site53").insertOne(xx, function(err, res) {
+                dbo.collection("site67").insertOne(xx, function(err, res) {
                     if (err){
                         console.log("Repeat");
                     }
@@ -96,6 +96,8 @@ async function main() {
         }
         catch(error) {
             console.error(error);
+            return 'OK';
+            //cb(error);
             // expected output: SyntaxError: unterminated string literal
             // Note - error messages will vary depending on browser
         }
