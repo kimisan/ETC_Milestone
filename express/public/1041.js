@@ -77,10 +77,10 @@ var jsonCircles = [
 //x.domain([0, 1]);
 //x.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
 //x.domain([new Date("2018-05-15"), new Date("2018-9-20")]);
-x.domain([new Date("2018-08-5"), new Date("2018-9-11")]);
+x.domain([new Date("2018-01-1"), new Date("2018-9-11")]);
 //y.domain(d3.extent(jsonCircles, function(d) { return new Date(d.Milestone); }));
-y.domain([0, 400000000000000]);
-y2.domain([0,34]);
+y.domain([0, 50]);
+y2.domain([0,50]);
 
 
 var data3= [];
@@ -132,132 +132,10 @@ for (i=start_block;i<7300000;i+=block_inverval)
 
 }
 
-//console.log(data6);
 
+let r1=1;
+let o1=1;
 
-svg.append("rect")
-    .attr("x", -0)
-    .attr("y", 0)
-    .style("opacity", 0.1)
-    .style("fill", "green")
-    .attr("width", x(new Date()))
-    .attr("height",height);
-
-
-
-let rect2 = svg.selectAll("rect2")
-    .data(data3)
-    .enter()
-    .append("rect")
-    .attr("x", function (d) {
-        return x(new Date(d.time))-5; })
-    .attr("y", function (d) {
-        return d.target[1]+milestone_text_addjust;
-        //return 100;
-    })
-    .style("opacity", 0.5)
-    .style("fill", "green")
-    .attr("width", 1)
-    .attr("height",function (d) {
-        return y(235817648454285)-(d.target[1]+milestone_text_addjust);
-        //return d.target[1]+150;
-        //return 100;
-    });
-
-
-
-
-var circles = svg.selectAll("circle")
-    .data(data3)
-    .enter()
-    .append("circle")
-    .attr("cx", function (d) {
-        return x(new Date(d.time))-5; })
-    .attr("cy", function (d) {
-        return d.target[1]+milestone_text_addjust;
-        //return 100;
-    })
-    .attr("r", function (d) { return 5; })
-    .attr('fill-opacity', 1)
-    .style("fill", function(d) { return "green"; });
-
-var circles2 = svg.selectAll("circle2")
-    .data(data5)
-    .enter()
-    .append("circle")
-    .attr("cx", function (d) {
-        return x(new Date(d.time*1000)); })
-    .attr("cy", function (d) {
-        return y(d.diff);
-    })
-    .attr("r", function (d) { return 0; })
-    .attr('fill-opacity', function(d) {
-        if (d.status == "completed"){
-            return 1;
-        }
-        else {
-            return 0.5;
-        }
-    })
-    .style("fill", function(d) { return "purple"; });
-
-
-
-console.log(data_array.hash_max);
-//console.log(data_array.hash_min);
-//console.log(y(data_array.hash_max));
-//console.log(y(data_array.hash_min));
-//console.log(y(data_array.hash_min)-y(data_array.hash_max));
-
-
-svg.append("rect")
-    .attr("x", 0)
-    .attr("y", y(235817648454285))
-    .style("opacity", 0.5)
-    .style("fill", "#bada55")
-    .attr("width", width)
-    .attr("height",170);
-
-svg.append("rect")
-    .attr("x", 0)
-    .attr("y", y(155817648454285))
-    .style("opacity", 0.2)
-    .style("fill", "green")
-    .attr("width", width)
-    .attr("height",20);
-
-
-var start = moment([2018, 5, 30]);
-var end   = moment([2018, 6, 21]);
-end.from(start);       // "in 5 days"
-end.from(start, true); // "5 days"
-//console.log(end.from(start));
-
-
-console.log(hashrate_array.cars);
-var circles3 = svg.selectAll("circle3")
-    .data(hashrate_array.cars)
-    .enter()
-    .append("circle")
-    .attr("clip-path","url(#rect-clip)")
-    .attr("cx", function (d) {
-        //console.log(d.timestamp);
-        return x(new Date(d.timestamp*1000)); })
-    .attr("cy", function (d) {
-        //console.log(d);
-        return y(d.difficulty);
-        //return y(d.totalDifficulty);
-    })
-    .attr("r", function (d) { return 2; })
-    .attr('fill-opacity', function(d) {
-        if (d.status == "completed"){
-            return 1;
-        }
-        else {
-            return 0.5;
-        }
-    })
-    .style("fill", "purple");
 
 
 //console.log(data_array.ETC_price_data[0]);
@@ -272,20 +150,73 @@ var circles5 = svg.selectAll("circle5")
         return x(new Date(d.date*1000)); })
     .attr("cy", function (d) {
         //console.log(d);
-        return y2(d.close);
+        return y(d.close);
         //return y(d.totalDifficulty);
     })
-    .attr("r", function (d) { return 2; })
-    .attr('fill-opacity', function(d) {
-        if (d.status == "completed"){
-            return 1;
-        }
-        else {
-            return 0.5;
-        }
-    })
+    .attr("r", r1)
+    .attr('fill-opacity', o1)
     .style("fill", "green");
 
+
+
+
+//add ETC Vdroop2
+let circles7 = svg.selectAll("circle7")
+    .data(data_array.ETC_vdroop2)
+    .enter()
+    .append("circle")
+    .attr("clip-path","url(#rect-clip)")
+    .attr("cx", function (d) {
+        //console.log(d.timestamp);
+        return x(new Date(d.date*1000)); })
+    .attr("cy", function (d) {
+        //console.log(d);
+        return y(d.close);
+        //return y(d.totalDifficulty);
+    })
+    .attr("r", r1)
+    .attr('fill-opacity', o1)
+    .style("fill", "red");
+
+
+
+console.log(data_array.ETC_vdroop3);
+//add ETC Vdroop3
+let circles8 = svg.selectAll("circle8")
+    .data(data_array.ETC_vdroop3)
+    .enter()
+    .append("circle")
+    .attr("clip-path","url(#rect-clip)")
+    .attr("cx", function (d) {
+        //console.log(d.timestamp);
+        return x(new Date(d.date*1000)); })
+    .attr("cy", function (d) {
+        //console.log(d);
+        return y(d.close);
+        //return y(d.totalDifficulty);
+    })
+    .attr("r", r1)
+    .attr('fill-opacity', o1)
+    .style("fill", "blue");
+
+//console.log(data_array.ETC_vdroop3);
+//add ETC Vdroop3
+let circles9 = svg.selectAll("circle9")
+    .data(data_array.ETC_vdroop4)
+    .enter()
+    .append("circle")
+    .attr("clip-path","url(#rect-clip)")
+    .attr("cx", function (d) {
+        //console.log(d.timestamp);
+        return x(new Date(d.date*1000)); })
+    .attr("cy", function (d) {
+        //console.log(d);
+        return y(d.close);
+        //return y(d.totalDifficulty);
+    })
+    .attr("r", r1)
+    .attr('fill-opacity', o1)
+    .style("fill", "purple");
 
 
 
@@ -302,49 +233,6 @@ var link = d3.linkHorizontal()
     });
 
 
-var circles1 = svg.selectAll("path")
-    .data(data3)
-    .enter()
-    .append("path")
-    .attr("fill", "none")
-    .attr("stroke", function(d) {
-        return d.color;
-    })
-    .attr("stroke-opacity", function(d) {
-        if (d.status == "completed"){
-            return 1;
-        }
-        else {
-            return 0.5;
-        }
-    })
-    .attr("stroke-linejoin", "round")
-    .attr("stroke-linecap", "round")
-    .attr("stroke-width", 1.5)
-    .attr('d', function(d) {
-        return link(d);
-    });
-
-var circles2 = svg.selectAll("text3")
-    .data(data3)
-    .enter()
-    .append("text")
-    .attr("x", function(d) {
-        //console.log(d);
-        return x(new Date(d.time)); })
-    .attr("y", function(d) {
-        return d.target[1]+milestone_text_addjust;
-    })
-    .attr( "fill-opacity", 1)
-    .style('fill', function(d) {
-        //console.log(d.color)
-        return d.color ; })
-    .attr("dx", 5)
-    .attr("dy", 5)
-    .style("font-size", "14px")
-    .text(function(d){
-        return d.text;
-    });
 
 svg.append("g")
     .attr("transform", "translate(0," + height + ")")
@@ -357,17 +245,6 @@ svg.append("g")
     .call(d3.axisLeft(y)
         .tickFormat(d3.format(".2s")));
 
-//add 2nd Y Axis
-svg.append("g")
-    .attr("class", "y axis")
-    .attr("transform", "translate(" + width + " ,0)")
-    //.style("fill", "red")
-    .attr("stroke", "green")
-    .call(d3.axisLeft(y2));
-
-var valueline = d3.line()
-    .x(function(d) { return x(new Date(d.time*1000)); })
-    .y(function(d) { return y(d.diff); });
 
 svg.append("text")
     .attr("x", x(new Date()))
@@ -377,6 +254,7 @@ svg.append("text")
     .attr('text-anchor', 'middle')
     .text("Today");
 
+/*
 svg.append("text")
     .attr("x", 100)
     .attr("y", -10)
@@ -384,20 +262,5 @@ svg.append("text")
     .attr("transform", "translate(0,0) rotate(90)")
     .attr('text-anchor', 'middle')
     .attr("stroke", "purple")
-    .text("Ethereum Classic Difficulty");
-
-svg.append("text")
-    .attr("x", 50)
-    .attr("y", -1190)
-    .style("font-size", "14px")
-    .attr("transform", "translate(0,0) rotate(90)")
-    .attr('text-anchor', 'middle')
-    .attr("stroke", "green")
     .text("$ETC/USD");
-
-
-//console.log(data_array.hash_latest[0]);
-console.log(data_array.hash_latest[0].difficulty);
-console.log(data_array.hash_min);
-//console.log(y(data_array.hash_min));
-//console.log(y(data_array.hash_latest[0].difficulty));
+    */

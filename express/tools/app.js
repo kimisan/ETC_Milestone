@@ -57,7 +57,7 @@ async function main() {
 
     var count =0
     var sum =0;
-    for (var i= 6410000;i< 7200000; i += 200)
+    for (var i= 6430000;i< 7200000; i += 200)
     {
 
         try {

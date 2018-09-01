@@ -4,6 +4,7 @@ const app = express()
 var rp = require('request-promise');
 
 Web3 = require('web3')
+var moment = require('moment');
 
 
 app.set('view engine', 'pug')
@@ -29,11 +30,50 @@ app.get('/', async (req, res, next) => {
             .then(function (htmlString) {
                 // Process html...
                 ETC_price_data = JSON.parse(htmlString);
-                console.log(ETC_price_data);
+                //console.log(ETC_price_data[0]);
             })
             .catch(function (err) {
                 // Crawling failed...
             });
+
+        let ETC_vdroop2=[];
+        let hash_latest2 = await Promise.all([
+            _.forEach(ETC_price_data, function(value) {
+                //console.log(value);
+                //moment.unix(value.date).add(7, 'd').unix();
+                let obj = {
+                    "date" : moment.unix(value.date).add(-37, 'd').unix(),
+                    "close" : value.close*1.08
+                };
+                ETC_vdroop2.push(obj);
+            })
+        ]);
+
+        let ETC_vdroop3=[];
+        let hash_latest3 = await Promise.all([
+            _.forEach(ETC_price_data, function(value) {
+                //console.log(value);
+                //moment.unix(value.date).add(7, 'd').unix();
+                let obj = {
+                    "date" : moment.unix(value.date).add(-112, 'd').unix(),
+                    "close" : value.close*1.8
+                };
+                ETC_vdroop3.push(obj);
+            })
+        ]);
+
+        let ETC_vdroop4=[];
+        let hash_latest4 = await Promise.all([
+            _.forEach(ETC_price_data, function(value) {
+                //console.log(value);
+                //moment.unix(value.date).add(7, 'd').unix();
+                let obj = {
+                    "date" : moment.unix(value.date).add(-205, 'd').unix(),
+                    "close" : value.close*2.28
+                };
+                ETC_vdroop4.push(obj);
+            })
+        ]);
 
 
         //const user = await getUserFromDb({ id: req.params.id })
@@ -89,7 +129,7 @@ app.get('/', async (req, res, next) => {
         //console.log(result2);
 
 
-        //console.log(hash_timestamp);
+        console.log(ETC_vdroop3);
 
         let data = {
 
@@ -97,6 +137,9 @@ app.get('/', async (req, res, next) => {
             "hash_min": hash_min,
             "hash_latest": hash_latest,
             "ETC_price_data": ETC_price_data,
+            "ETC_vdroop2": ETC_vdroop2,
+            "ETC_vdroop3": ETC_vdroop3,
+            "ETC_vdroop4": ETC_vdroop4,
             "number": 123,
             "string": "Hello World"
         }
